@@ -1,0 +1,18 @@
+FROM jupyter/scipy-notebook
+
+RUN mkdir my-model
+ENV MODEL_DIR=/home/jovyan/my-model
+#yovyan is a baked in directy on docker image.
+ENV MODEL_FILE_LDA=clf_lda.joblib
+ENV MODEL_FILE_NN=clf_nn.joblib
+ENV OUTPUT_FILE=output.csv
+
+RUN pip install joblib
+
+COPY train.csv ./train.csv
+COPY test.csv ./test.csv
+
+COPY train.py ./train.py
+COPY inference.py ./inference.py
+
+RUN python3 train.py

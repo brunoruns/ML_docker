@@ -18,6 +18,16 @@ from sklearn import preprocessing
 
 def inference():
 
+    #saving the models in a structured way
+    MODEL_DIR = os.environ["MODEL_DIR"]
+    MODEL_FILE_LDA = os.environ["MODEL_FILE_LDA"]
+    MODEL_FILE_NN = os.environ["MODEL_FILE_NN"]
+    MODEL_PATH_LDA = os.path.join(MODEL_DIR, MODEL_FILE_LDA)
+    MODEL_PATH_NN = os.path.join(MODEL_DIR, MODEL_FILE_NN)
+
+    FILE_OUTPUT = os.environ["OUTPUT_FILE"]
+    FILE_OUTPUT_PATH = os.path.join(MODEL_DIR, FILE_OUTPUT)
+
     # Load, read and normalize training data
     testing = "./test.csv"
     data_test = pd.read_csv(testing)
@@ -35,16 +45,24 @@ def inference():
     # Models training
     
     # Run model
-    clf_lda = load('Inference_lda.joblib')
+    print(MODEL_PATH_LDA)
+    from joblib import load
+    clf_lda = load(MODEL_PATH_LDA)
     print("LDA score and classification:")
     print(clf_lda.score(X_test, y_test))
     print(clf_lda.predict(X_test))
         
     # Run model
-    clf_nn = load('Inference_NN.joblib')
+    print(MODEL_PATH_NN)
+    from joblib import load
+    clf_nn = load(MODEL_PATH_NN)
     print("NN score and classification:")
     print(clf_nn.score(X_test, y_test))
     print(clf_nn.predict(X_test))
+
+    #X_test.to_csv(output_path)
+    print(FILE_OUTPUT_PATH)
+    pd.DataFrame(X_test).to_csv(FILE_OUTPUT_PATH)
     
 if __name__ == '__main__':
     inference()

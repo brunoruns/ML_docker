@@ -1,0 +1,28 @@
+FROM continuumio/miniconda3
+
+# WORKDIR 
+
+# create the environment
+COPY environment.yml .
+RUN conda env create -f environment.yml
+
+# make RUN commands use this new environment every time:
+SHELL ["conda", "run", "-n", "deep-learning-env", "/bin/bash", "-c"]
+
+# demonstrate the environment is activated:
+RUN echo "Make sure Tensorflow is installed:"
+RUN python -c "import tensorflow"
+
+# code to run when container is started
+# copying all needed files
+COPY deep_learning_training.py ./deep_learning_training.py
+COPY deep_learning_predict.py ./deep_learning_predict.py
+
+#making an empty deep learning directory ?
+RUN mkdir -p ./deep_learning
+
+#train model
+RUN python3 deep_learning_training.py
+
+#predict model
+RUN python3 deep_learning_prediction.py

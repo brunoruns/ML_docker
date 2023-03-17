@@ -2,7 +2,7 @@ FROM jupyter/scipy-notebook
 
 RUN mkdir my-model
 ENV MODEL_DIR=/home/jovyan/my-model
-#yovyan is a baked in directy on docker image.
+#yovyan is a baked in directory on docker image. The noun refers to 'related to Jupyter'
 ENV MODEL_FILE_LDA=clf_lda.joblib
 ENV MODEL_FILE_NN=clf_nn.joblib
 ENV OUTPUT_FILE=output.csv
